@@ -1,25 +1,24 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from "react";
 import './App.css';
+import useWatchLocation from "./hooks/useWatchLocation";
+import { geolocationOptions } from "./constants/geolocationOptions";
+import Location from "./components/Location";
 
 function App() {
+  const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+     <div className="App">
+    {/*//   <Location location={location} error={error} />*/}
+    {/*// </div>*/}
+
+    {(typeof location !== 'undefined') ? (
+        <Location location={location} error={error} />
+    ): (
+        <div></div>
+    )}
+</div>
+);
 }
 
 export default App;
