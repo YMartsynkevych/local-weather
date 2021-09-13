@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import './App.css';
+import './components/styles.css';
 import useWatchLocation from "./hooks/useWatchLocation";
 import { geolocationOptions } from "./constants/geolocationOptions";
 import Location from "./components/Location";
@@ -8,7 +8,7 @@ function App() {
   const { location, cancelLocationWatch, error } = useWatchLocation(geolocationOptions);
 
   return (
-     <div className="App">
+     <div className="main">
     {/*//   <Location location={location} error={error} />*/}
     {/*// </div>*/}
 

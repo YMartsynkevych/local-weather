@@ -1,36 +1,54 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Card } from 'semantic-ui-react'
+import moment from 'moment';
+import styled from "styled-components";
 const { useState,useEffect } = React;
 
 const Location = ({ location, error }) => {
   const weatherProxyUrl ="https://weather-proxy.freecodecamp.rocks/"
-  const [userData, setUserData] = useState({});
-
+  const [weatherData, setWeatherData] = useState({});
+  const WeatherIcon = styled.div`
+  color: whitesmoke;
+`;
   const getCurrentLocalWeather = async (location) => {
     const url = weatherProxyUrl+'api/current?lon='+location.longitude+'&lat='+location.latitude
-    console.log(url)
+
     const response = await fetch(url);
     const jsonData = await response.json();
     console.log(jsonData)
-    setUserData(jsonData);
+    setWeatherData(jsonData);
   };
+
   useEffect(() => {
     getCurrentLocalWeather(location)
   }, [location]);
   return (
     <div>
-      {(typeof userData.main !== 'undefined')  ? (
-          <Card>
-            <Card.Content>
-              <Card.Header className="header">City Name: {userData.name}</Card.Header>
-              <p>Temprature: {userData.main.temp} &deg;C</p>
-              <p>Sunrise: {new Date(userData.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</p>
-              <p>Sunset: {new Date(userData.sys.sunset * 1000).toLocaleTimeString('en-IN')}</p>
-              <p>Description: {userData.weather[0].main}</p>
-              <p>Humidity: {userData.main.humidity} %</p>
-            </Card.Content>
-          </Card>
+      {(typeof weatherData.main !== 'undefined')  ? (
+        <div>
+          <div className="top">
+            <div className="header">
+                <p>{weatherData.name}</p>
+            </div>
+          </div>
+          <div className="flex">
+            <p className="day">{moment().format('dddd')}, <span>{moment().format('LL')}</span></p>
+            <div className="flex">
+              <WeatherIcon style={{fontSize:30,marginTop:15}}>{weatherData.weather[0].main}</WeatherIcon>
+            </div>
+          </div>
+            <div className="flex">
+              <p className="temp">Temprature: {weatherData.main.temp} &deg;C</p>
+              <p className="temp">Humidity: {weatherData.main.humidity} %</p>
+            </div>
+
+            <div className="flex">
+              <p className="sunrise-sunset">Sunrise: {new Date(weatherData.sys.sunrise * 1000).toLocaleTimeString('en-IN')}</p>
+              <p className="sunrise-sunset">Sunset: {new Date(weatherData.sys.sunset * 1000).toLocaleTimeString('en-IN')}</p>
+            </div>
+
+
+        </div>
       ) : (
         <p>Loading...</p>
       )}
