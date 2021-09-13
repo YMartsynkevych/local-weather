@@ -2,22 +2,27 @@ import React from "react";
 import PropTypes from "prop-types";
 import moment from 'moment';
 import styled from "styled-components";
+
 const { useState,useEffect } = React;
 
+const WeatherIcon = styled.div`
+  color: whitesmoke;
+`;
 const Location = ({ location, error }) => {
   const weatherProxyUrl ="https://weather-proxy.freecodecamp.rocks/"
   const [weatherData, setWeatherData] = useState({});
-  const WeatherIcon = styled.div`
-  color: whitesmoke;
-`;
+  const [isCelcius, setIsCelcius] = useState(true);
+
   const getCurrentLocalWeather = async (location) => {
     const url = weatherProxyUrl+'api/current?lon='+location.longitude+'&lat='+location.latitude
-
     const response = await fetch(url);
     const jsonData = await response.json();
-    console.log(jsonData)
     setWeatherData(jsonData);
   };
+
+  const setCorrectTemp = () => {
+    setIsCelcius(!isCelcius)
+  }
 
   useEffect(() => {
     getCurrentLocalWeather(location)
@@ -28,8 +33,11 @@ const Location = ({ location, error }) => {
         <div>
           <div className="top">
             <div className="header">
-                <p>{weatherData.name}</p>
+              <p>{weatherData.name}</p>
             </div>
+            <button id="celcius" color="red" onClick={setCorrectTemp}>
+              Celcius/Fahrenheit
+            </button>
           </div>
           <div className="flex">
             <p className="day">{moment().format('dddd')}, <span>{moment().format('LL')}</span></p>
@@ -38,7 +46,7 @@ const Location = ({ location, error }) => {
             </div>
           </div>
             <div className="flex">
-              <p className="temp">Temprature: {weatherData.main.temp} &deg;C</p>
+              <p className="temp">Temprature: {isCelcius?weatherData.main.temp:weatherData.main.temp* 9 / 5 + 32} &deg;C</p>
               <p className="temp">Humidity: {weatherData.main.humidity} %</p>
             </div>
 
