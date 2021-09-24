@@ -1,11 +1,12 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef } from 'react';
 
 const useWatchLocation = (options = {}) => {
   // store location in state
   const [location, setLocation] = useState();
   // store error message in state
   const [error, setError] = useState();
-  // save the returned id from the geolocation's `watchPosition` to be able to cancel the watch instance
+  // save the returned id from the geolocation's `watchPosition`
+  // to be able to cancel the watch instance
   const locationWatchId = useRef(null);
 
   // Success handler for geolocation's `watchPosition` method
@@ -19,7 +20,7 @@ const useWatchLocation = (options = {}) => {
   };
 
   // Error handler for geolocation's `watchPosition` method
-  const handleError = (error) => {
+  const handleError = () => {
     setError(error.message);
   };
 
@@ -37,7 +38,7 @@ const useWatchLocation = (options = {}) => {
 
     // If the geolocation is not defined in the used browser we handle it as an error
     if (!geolocation) {
-      setError("Geolocation is not supported.");
+      setError('Geolocation is not supported.');
       return;
     }
 
@@ -45,6 +46,7 @@ const useWatchLocation = (options = {}) => {
     locationWatchId.current = geolocation.watchPosition(handleSuccess, handleError, options);
 
     // Clear the location watch instance when React unmounts the used component
+    // eslint-disable-next-line consistent-return
     return cancelLocationWatch;
   }, [options]);
 
