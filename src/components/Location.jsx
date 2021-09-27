@@ -35,7 +35,7 @@ const Location = ({ location, error }) => {
             <div className="header">
               <p>{weatherData.name}</p>
             </div>
-            <button id="celcius" color="red" onClick={setCorrectTemp}>
+            <button id="celcius" type="submit" color="red" onClick={setCorrectTemp}>
               Celcius/Fahrenheit
             </button>
           </div>
@@ -55,7 +55,7 @@ const Location = ({ location, error }) => {
           <div className="flex">
             <p className="temp">
               Temprature:
-              {isCelcius ? weatherData.main.temp : weatherData.main.temp * 9 / 5 + 32}
+              {isCelcius ? weatherData.main.temp : (weatherData.main.temp * 9) / 5 + 32}
               {' '}
               &deg;C
             </p>
@@ -92,9 +92,9 @@ const Location = ({ location, error }) => {
   );
 };
 
-Location.propTypes = {
-  location: PropTypes.object,
+PropTypes.shape({
+  location: PropTypes.shape(PropTypes.object),
   error: PropTypes.string,
-};
+});
 
 export default Location;

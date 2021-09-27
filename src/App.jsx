@@ -1,7 +1,7 @@
 import React from 'react';
 import './components/styles.css';
 import useWatchLocation from './hooks/useWatchLocation';
-import { geolocationOptions } from './constants/geolocationOptions';
+import geolocationOptions from './constants/geolocationOptions';
 import Location from './components/Location';
 
 function App() {
