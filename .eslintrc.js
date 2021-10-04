@@ -20,5 +20,6 @@ module.exports = {
   ],
   rules: {
     'react/prop-types': 'off',
+    'react/destructuring-assignment': 'off',
   },
 };

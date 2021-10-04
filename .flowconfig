@@ -1,7 +1,9 @@
 [ignore]
-/node_modules/.*
+*/node_modules/*.
+*/build/*
 [include]
 [libs]
 [lints]
 [options]
+react.runtime=automatic
 [strict]

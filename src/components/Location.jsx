@@ -1,5 +1,5 @@
-import React from 'react';
-import PropTypes from 'prop-types';
+// @flow
+import * as React from 'react';
 import moment from 'moment';
 import styled from 'styled-components';
 
@@ -8,13 +8,19 @@ const { useState, useEffect } = React;
 const WeatherIcon = styled.div`
   color: whitesmoke;
 `;
-const Location = ({ location, error }) => {
+type Props = {
+  location: { latitude:number,
+    longitude:number},
+  error: String
+};
+
+const Location = (props: Props):React.Node => {
   const weatherProxyUrl = 'https://weather-proxy.freecodecamp.rocks/';
   const [weatherData, setWeatherData] = useState({});
   const [isCelcius, setIsCelcius] = useState(true);
-
+  const { error } = props;
   const getCurrentLocalWeather = async () => {
-    const url = `${weatherProxyUrl}api/current?lon=${location.longitude}&lat=${location.latitude}`;
+    const url = `${weatherProxyUrl}api/current?lon=${props.location.longitude}&lat=${props.location.latitude}`;
     const response = await fetch(url);
     const jsonData = await response.json();
     setWeatherData(jsonData);
@@ -25,8 +31,8 @@ const Location = ({ location, error }) => {
   };
 
   useEffect(() => {
-    getCurrentLocalWeather(location);
-  }, [location]);
+    getCurrentLocalWeather(props.location);
+  }, [props.location]);
   return (
     <div>
       {(typeof weatherData.main !== 'undefined') ? (
@@ -91,10 +97,5 @@ const Location = ({ location, error }) => {
     </div>
   );
 };
-
-PropTypes.shape({
-  location: PropTypes.shape(PropTypes.object),
-  error: PropTypes.string,
-});
 
 export default Location;
